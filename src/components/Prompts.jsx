@@ -5,51 +5,51 @@ const bitacora = [
   {
     seccion: '02 SQL Injection',
     herramienta: 'Claude (claude.ai)',
-    prompt: 'Crea un componente React llamado Sqli.jsx para documentar una inyección SQL encontrada en el portal de afiliados de Isapre VidaPlena. Debe incluir: el payload \'OR\'1\'=\'1, explicación técnica de por qué concatenar entrada del usuario en una consulta SQL lo hace vulnerable, tabla CVSS 3.1 con el vector completo, y defensa basada en consultas parametrizadas. Usa Tailwind CSS y Lucide React. Usa la identidad visual ya existente (slate-950, cyan-300).',
-    acepto: 'Estructura del componente, tabla CVSS con vector completo, explicación técnica del mecanismo de concatenación insegura.',
-    corrigio: 'Ajusté el puntaje CVSS de 9.6 a 9.8 verificando en la calculadora oficial de FIRST.org. Cambié la redacción genérica del impacto por una específica al rubro: mención de Ley 19.628, datos bancarios de reembolso y diagnósticos médicos.',
+    prompt: 'necesito documentar el ataque sql injection que hice en dvwa para la isapre vidaplena, use el payload \' OR \'1\'=\'1 y me salio una lista de usuarios, como hago el componente sqli.jsx con eso? necesita tener la explicacion de por que funciona y una tabla con el puntaje cvss',
+    acepto: 'La estructura del componente con la tabla CVSS y la explicación del mecanismo de concatenación insegura.',
+    corrigio: 'El puntaje CVSS me lo dio 9.6 pero al verificarlo en la calculadora de FIRST.org era 9.8. También cambié el texto del impacto porque era muy genérico, lo hice específico para una isapre mencionando los datos de salud y la Ley 20.584.',
   },
   {
     seccion: '03 XSS Reflected',
     herramienta: 'Claude (claude.ai)',
-    prompt: 'Documenta la vulnerabilidad XSS Reflected para el portal de Isapre VidaPlena en un componente Xss.jsx. El payload es <script>alert(\'XSS\')</script>. Explica por qué el navegador ejecuta el script, el impacto específico en una isapre (robo de sesión de afiliado para emitir bonos o ver diagnósticos), tabla CVSS 3.1 y política de prevención con CSP y HttpOnly. Mantén la misma identidad visual del proyecto.',
-    acepto: 'Explicación del mecanismo de Reflected XSS, tabla CVSS con justificación del alcance cambiado (S:C), y controles CSP e HttpOnly.',
-    corrigio: 'Reescribí el impacto para hacerlo específico al negocio de una isapre: agregué el vector de phishing por correo a afiliados y la acción de emitir bonos como consecuencia del robo de sesión. Agregué referencia a OWASP A05:2021 (Security Misconfiguration) para la política CSP.',
+    prompt: 'ahora necesito lo mismo pero para xss reflected, el payload fue <script>alert(\'XSS\')</script> y se ejecuto un popup en dvwa, hazme el componente xss.jsx con la explicacion tecnica y el cvss, recuerda que es para el portal de isapre vidaplena',
+    acepto: 'La explicación del mecanismo XSS Reflected y la tabla CVSS con el vector de alcance cambiado (S:C).',
+    corrigio: 'Le agregué el contexto específico de la isapre: que un atacante puede mandar una URL maliciosa por correo a los afiliados para robarles la sesión y emitir bonos. Eso no lo había mencionado en el prompt y la IA lo dejó genérico.',
   },
   {
     seccion: '04 Command Injection',
     herramienta: 'Claude (claude.ai)',
-    prompt: 'Crea Comandos.jsx para el portal de Isapre VidaPlena documentando Command Injection. Payload: 127.0.0.1; cat /etc/passwd. Explica el separador ";" en Bash, por qué el servidor ejecuta ambos comandos con los privilegios del proceso web, impacto en una isapre (ransomware, eliminación de registros médicos, Ley 19.628) y defensa: eliminar exec/system, lista blanca de IPs, chroot/Docker. CVSS 3.1 completo. Referencia OWASP y CIS.',
-    acepto: 'Explicación del separador Bash, el mecanismo de ejecución con privilegios del proceso web, tabla CVSS 9.8 con justificación.',
-    corrigio: 'Agregué la referencia específica al CIS Control 4 (mínimo privilegio) que el modelo no incluyó inicialmente. Reemplazé "puede causar daños" por consecuencias concretas para Isapre VidaPlena: cifrado de registros médicos con ransomware y responsabilidad bajo Ley 20.584.',
+    prompt: 'me falta el de command injection, use 127.0.0.1; cat /etc/passwd y me mostro todos los usuarios del servidor, necesito el componente comandos.jsx igual que los anteriores con cvss y defensa, para isapre vidaplena',
+    acepto: 'La explicación del separador ";" en bash y cómo ejecuta dos comandos con los mismos privilegios del servidor.',
+    corrigio: 'Agregué la referencia a CIS Control 4 que la IA no incluyó. También cambié el impacto para mencionar ransomware y eliminación de registros médicos, que son consecuencias reales para una isapre.',
   },
   {
     seccion: '05 Activos',
     herramienta: 'Claude (claude.ai)',
-    prompt: 'Genera el componente Activos.jsx con al menos 5 activos de información del portal de Isapre VidaPlena. Vincula cada activo al rubro de salud previsional en Chile (Ley 19.628, Ley 20.584, Superintendencia de Salud). Para cada activo indica: ID, nombre, tipo, descripción, nivel de criticidad y qué vulnerabilidades de las tres demostradas (SQLi, XSS, Command Injection) lo ponen en riesgo. Incluye tabla resumen al final.',
-    acepto: 'Estructura de 5 activos con tarjetas, clasificación por criticidad y tabla resumen. La vinculación a las leyes chilenas específicas del rubro.',
-    corrigio: 'Añadí el activo "Registros médicos y prestaciones" que el modelo omitió. Corregí el impacto del activo A3 (portal web) que inicialmente solo mencionaba indisponibilidad, agregando la distribución de payloads a otros afiliados como vector secundario.',
+    prompt: 'necesito identificar los activos de informacion del portal de isapre vidaplena, al menos 4 o 5, y relacionarlos con las vulnerabilidades que encontre, tambien necesito vincularlo con las leyes chilenas de salud y datos personales',
+    acepto: 'La estructura de 5 activos con tarjetas, niveles de criticidad y tabla resumen.',
+    corrigio: 'La IA olvidó incluir los registros médicos como activo separado, solo tenía la base de datos general. Lo agregué porque en una isapre el historial clínico es el dato más sensible. También corregí el impacto del portal web que solo decía "indisponibilidad".',
   },
   {
     seccion: '06 Matriz',
     herramienta: 'Claude (claude.ai)',
-    prompt: 'Crea el componente Matriz.jsx con un mapa de calor visual 5x5 de probabilidad × impacto. Posiciona SQL Injection en (prob: Alta, impacto: Muy Alto), Command Injection en (prob: Media, impacto: Muy Alto) y XSS en (prob: Alta, impacto: Alto). Usa colores Tailwind: rojo=crítico, naranja=alto, amarillo=medio, verde=bajo. Justifica la probabilidad y el impacto en el contexto de una isapre. Agrega sección de priorización vinculada al CVSS.',
-    acepto: 'Grilla 5x5 con celdas coloreadas, posicionamiento de las 3 vulnerabilidades como puntos en la matriz, tabla resumen con nivel de riesgo y sección de priorización.',
-    corrigio: 'El modelo generó inicialmente una grilla con colores invertidos (rojo abajo-izquierda). Corregí la lógica para que el riesgo sea mayor hacia arriba-derecha (mayor impacto + mayor probabilidad). También agregué la justificación específica por rubro que el modelo dejó genérica.',
+    prompt: 'hazme la matriz de riesgo con mapa de calor 5x5, sql injection tiene probabilidad alta e impacto muy alto, command injection probabilidad media impacto muy alto, y xss probabilidad alta impacto alto, usa colores rojo naranja amarillo verde segun el nivel de riesgo',
+    acepto: 'La grilla 5x5 con celdas coloreadas y las 3 vulnerabilidades posicionadas como puntos.',
+    corrigio: 'Los colores estaban al revés, rojo abajo a la izquierda cuando debería ser arriba a la derecha. Tuve que corregir la lógica de la grilla. También agregué la justificación de por qué la probabilidad de command injection es media y no alta.',
   },
   {
     seccion: '07 Controles',
     herramienta: 'Claude (claude.ai)',
-    prompt: 'Genera Controles.jsx con controles de prevención y mitigación separados por cada vulnerabilidad (SQLi, XSS, Command Injection). Para prevención usa referencias de OWASP A03:2021 y CIS Controls. Para mitigación usa NIST SP 800-53 y OWASP. Los controles deben ser específicos, no genéricos: nombrar la técnica concreta (Prepared Statements, CSP, chroot, WAF con CRS). Identidad visual del proyecto.',
-    acepto: 'Controles separados por vulnerabilidad, badges de marco de referencia por control, sección de resumen de marcos utilizados.',
-    corrigio: 'Reescribí varios controles que usaban lenguaje vago ("mejorar la validación", "usar herramientas de seguridad"). Los reemplacé con acciones concretas: nombre de función PHP a deshabilitar (disable_functions en php.ini), nombre de herramienta (OWASP ZAP), y referencia exacta al estándar (NIST SP 800-53 SI-10).',
+    prompt: 'necesito los controles de prevencion y mitigacion para cada vulnerabilidad por separado, con referencias a owasp cis y nist, que sean especificos no genericos tipo "actualizar el sistema"',
+    acepto: 'Los controles separados por vulnerabilidad con badges de marco de referencia.',
+    corrigio: 'Varios controles seguían siendo vagos como "mejorar la validación". Los reemplacé con acciones concretas: nombre exacto de la función PHP a deshabilitar, nombre de la herramienta (OWASP ZAP) y la referencia exacta al estándar NIST.',
   },
   {
     seccion: '08 Recuperación',
     herramienta: 'Claude (claude.ai)',
-    prompt: 'Crea Recuperacion.jsx con plan DR para Isapre VidaPlena tras un incidente de seguridad web. Debe incluir: RTO (4 horas, justificado por necesidad de emitir bonos de urgencia) y RPO (24 horas), mejoras tecnológicas (WAF, segmentación de red en DMZ, SIEM, cifrado AES-256), plan DR en 5 fases con tiempos (Detección 0-15 min, Contención 15-60 min, Erradicación 1-4 h, Recuperación 4-8 h, Notificación < 72 h según Circular IF/N°269), política de respaldos. Referencias NIST SP 800-34, NIST SP 800-53, CIS Controls.',
-    acepto: 'Estructura de 5 fases con tiempos, tarjetas de RTO/RPO, mejoras tecnológicas con badges de marco y política de respaldos en 3 columnas.',
-    corrigio: 'Agregué la referencia específica a la Circular IF/N°269 de la Superintendencia de Salud en la fase de Notificación, que el modelo omitió. Ajusté el RPO de 6 horas a 24 horas porque los respaldos incrementales diarios son más realistas para el tamaño de la organización.',
+    prompt: 'hazme el plan de recuperacion ante desastres para isapre vidaplena, necesita rto rpo mejoras tecnologicas tipo waf y segmentacion de red, y un plan en fases con tiempos, tambien la notificacion a la superintendencia de salud',
+    acepto: 'La estructura de 5 fases con tiempos, tarjetas RTO/RPO y las mejoras tecnológicas.',
+    corrigio: 'La IA puso RPO de 6 horas pero para el tamaño de una isapre mediana los respaldos diarios son más realistas, lo cambié a 24 horas. También agregué la referencia a la Circular IF/N°269 de la Superintendencia de Salud que la IA no conocía.',
   },
 ]
 
@@ -129,23 +129,22 @@ export default function Prompts() {
           </div>
           <div className="space-y-3 text-sm text-slate-300">
             <p>
-              El uso de Claude como asistente aceleró significativamente la estructuración del informe y la
-              generación del código React, especialmente para componentes repetitivos como las tablas CVSS y
-              las secciones de controles. Sin embargo, la IA no reemplazó el análisis; lo que aportó fue
-              un borrador estructurado que requirió validación y ajuste en cada iteración.
+              Usar Claude me ayudó bastante para estructurar los componentes React y entender cómo presentar
+              la información técnica de forma ordenada. Sin embargo no fue tan simple como pedir y copiar:
+              en varios casos la IA me dio información incorrecta o incompleta que tuve que corregir, como
+              el puntaje CVSS que estaba mal y los controles que eran demasiado genéricos.
             </p>
             <p>
-              El valor real del proceso estuvo en las correcciones: reconocer que el puntaje CVSS inicial
-              era incorrecto obligó a usar la calculadora oficial de FIRST.org y entender los vectores.
-              Identificar que los controles eran genéricos llevó a investigar los marcos OWASP, CIS y NIST
-              para obtener referencias concretas. La IA bien dirigida actuó como punto de partida, no como
-              respuesta final.
+              Lo que más me costó fue hacer los prompts específicos. Al principio pedía cosas muy generales
+              y los resultados no servían. Cuando empecé a mencionar la empresa, el payload concreto y
+              el contexto de una isapre, los resultados mejoraron mucho. Entendí que la IA es una herramienta
+              que funciona mejor mientras más claro seas con lo que necesitas.
             </p>
             <p>
-              La calidad de los prompts fue determinante: un prompt que nombraba la empresa, la vulnerabilidad
-              concreta, el payload real y el marco legal aplicable (Ley 19.628, Circular IF/N°269) produjo
-              resultados significativamente más útiles que uno genérico. Esto refuerza que el valor del
-              auditor está en saber qué pedir, no solo en saber ejecutar.
+              La parte que más aprendí fue verificar los resultados: buscar el puntaje CVSS en la calculadora
+              oficial, confirmar que los marcos OWASP y NIST que citaba la IA existían realmente, y ajustar
+              el impacto de cada vulnerabilidad al contexto real de una isapre. Esa validación es lo que
+              convierte el output de la IA en un trabajo propio.
             </p>
           </div>
         </div>
